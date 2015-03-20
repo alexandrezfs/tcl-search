@@ -1,2 +1,2 @@
-# hashtag-search
-[Flux / ReactJS] Search over Twitter with ReactJS
+# TCL-Search
+[Flux / ReactJS] Search over TCL data (alerts, real-time checkpoints)
