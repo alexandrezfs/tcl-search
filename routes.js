@@ -1,7 +1,9 @@
 var JSX = require('node-jsx').install(),
-    React = require('react');
+    React = require('react'),
     //TweetsApp = require('./components/TweetsApp.react'),
     //Tweet = require('./models/Tweet');
+    TclApp = require('./components/TclApp.react');
+
 
 module.exports = {
 
@@ -26,6 +28,15 @@ module.exports = {
 
         });
         */
+
+        var markup = React.renderComponentToString(
+            TclApp()
+        );
+
+        res.render('home', {
+            markup: markup // Pass rendered react markup
+        });
+
     }
 
 }

@@ -12,6 +12,7 @@ var app = express();
 var port = process.env.PORT || 8080;
 
 // Set handlebars as the templating engine
+app.set('views', __dirname + '/views');
 app.engine('handlebars', exphbs({ defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
