@@ -3,7 +3,6 @@ var express = require('express'),
     exphbs = require('express-handlebars'),
     http = require('http'),
     mongoose = require('mongoose'),
-    twitter = require('ntwitter'),
     routes = require('./routes'),
     config = require('./config');
 

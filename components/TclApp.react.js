@@ -8,7 +8,7 @@ module.exports = TclApp = React.createClass({
 
         return (
             <div className="tweets-app">
-                blabla
+                {this.props.body}
             </div>
         )
 

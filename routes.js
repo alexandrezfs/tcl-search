@@ -2,8 +2,8 @@ var JSX = require('node-jsx').install(),
     React = require('react'),
     //TweetsApp = require('./components/TweetsApp.react'),
     //Tweet = require('./models/Tweet');
-    TclApp = require('./components/TclApp.react');
-
+    TclApp = require('./components/TclApp.react'),
+    Checkpoint = require('./models/Checkpoint');
 
 module.exports = {
 
@@ -29,14 +29,20 @@ module.exports = {
         });
         */
 
-        var markup = React.renderComponentToString(
-            TclApp()
-        );
+        Checkpoint.getData(function(data) {
 
-        res.render('home', {
-            markup: markup // Pass rendered react markup
+            var markup = React.renderComponentToString(
+                TclApp({
+                    body: data
+                })
+            );
+
+            res.render('home', {
+                markup: markup // Pass rendered react markup
+            });
+
         });
 
     }
 
-}
+};
