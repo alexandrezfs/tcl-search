@@ -8,7 +8,7 @@ exports.getData = function(callback) {
         url = 'https://' + username + ':' + password + '@download.data.grandlyon.com/ws/smartdata/tcl_sytral.tclpassagearret/all.json';
 
     request({url: url}, function (error, response, body) {
-        console.log(body);
+        //console.log(body);
 
         callback(body);
     });

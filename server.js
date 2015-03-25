@@ -11,12 +11,14 @@ var app = express();
 var port = process.env.PORT || 8080;
 
 // Set handlebars as the templating engine
+app.use("/", express.static(__dirname + "/public/"));
 app.set('views', __dirname + '/views');
 app.engine('handlebars', exphbs({ defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 // Index Route
 app.get('/', routes.index);
+app.get('/line/:lineName', routes.line);
 
 // Fire it up (start our server)
 var server = http.createServer(app).listen(port, function() {
