@@ -11,7 +11,10 @@ module.exports = Stop = React.createClass({
         return (
             <li>
                 <blockquote>
+                    <span className="content">{stop.lineName}</span>
                     <span className="content">{stop.stopName}</span>
+                    <span className="content">{stop.newCheckTime}</span>
+                    <span className="content">{stop.newCheckDateTime}</span>
                 </blockquote>
             </li>
         )
