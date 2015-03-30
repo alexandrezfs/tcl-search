@@ -26,6 +26,7 @@ app.set('view engine', 'handlebars');
 app.get('/', routes.index);
 app.post('/line', routes.linePost);
 app.get('/line/:lineName', routes.line);
+app.get('/suggestlines/:lineName', routes.suggestLines);
 
 // Fire it up (start our server)
 var server = http.createServer(app).listen(port, function() {

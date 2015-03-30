@@ -2,8 +2,11 @@ var JSX = require('node-jsx').install(),
     React = require('react'),
     TclApp = require('./components/TclApp.react'),
     Stops = require('./components/Stops.react'),
+    Lines = require('./components/Lines.react'),
     Checkpoint = require('./models/Checkpoint'),
-    uuid = require('node-uuid');
+    Line = require('./models/Line'),
+    uuid = require('node-uuid'),
+    SearchEngine = require('./SearchEngine');
 
 module.exports = {
 
@@ -81,9 +84,39 @@ module.exports = {
 
     suggestLines: function(req, res) {
 
+        var formattedLines = [];
+
+        var requestedLineName = req.params.lineName;
+
         //Getting all potential lines
+        Line.getDataBus(function(data) {
 
+            var busLines = JSON.parse(data);
+            busLines = busLines.values;
 
+            busLines.forEach(function(busLine) {
+
+                if(SearchEngine.similar_text(busLine[1], requestedLineName) > 1) {
+
+                    formattedLines.push({
+                        key: busLine[0],
+                        lineId: busLine[1],
+                        direction: busLine[2],
+                        lineName: busLine[5]
+                    });
+                }
+            });
+
+            var markup = React.renderComponentToString(
+                Lines({
+                    lines: formattedLines
+                })
+            );
+
+            res.render('lines', {
+                markup: markup // Pass rendered react markup
+            });
+
+        });
     }
-
 };
