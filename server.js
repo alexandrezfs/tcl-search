@@ -25,7 +25,7 @@ app.set('view engine', 'handlebars');
 // Index Route
 app.get('/', routes.index);
 app.post('/line', routes.linePost);
-app.get('/line/:lineName', routes.line);
+app.get('/line/:titan_code', routes.line);
 app.get('/suggestlines/:lineName', routes.suggestLines);
 
 // Fire it up (start our server)

@@ -19,7 +19,7 @@ module.exports = Stops = React.createClass({
 
         // Return ul filled with our mapped tweets
         return (
-            <ul className="stops">{content}</ul>
+            <div className="list-group">{content}</div>
         )
 
     }

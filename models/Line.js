@@ -1,11 +1,11 @@
 var request = require('request');
 var config = require('../config');
 
-exports.getDataBus = function(callback) {
+exports.getDataBus = function(line, callback) {
 
     var username = config.values.datalyon_username,
         password = config.values.datalyon_password,
-        url = 'https://' + username + ':' + password + '@download.data.grandlyon.com/ws/smartdata/tcl_sytral.tcllignebus/all.json';
+        url = 'https://' + username + ':' + password + '@download.data.grandlyon.com/ws/smartdata/tcl_sytral.tcllignebus/all.json?field=ligne&value=' + line + '&maxfeatures=1';
 
     request({url: url}, function (error, response, body) {
         //console.log(body);
@@ -15,11 +15,11 @@ exports.getDataBus = function(callback) {
 
 };
 
-exports.getDataMetro = function(callback) {
+exports.getDataMetro = function(line, callback) {
 
     var username = config.values.datalyon_username,
         password = config.values.datalyon_password,
-        url = 'https://' + username + ':' + password + '@download.data.grandlyon.com/ws/smartdata/tcl_sytral.tcllignemf/all.json';
+        url = 'https://' + username + ':' + password + '@download.data.grandlyon.com/ws/smartdata/tcl_sytral.tcllignemf/all.json?field=ligne&value=' + line + '&maxfeatures=1';
 
     request({url: url}, function (error, response, body) {
         //console.log(body);
@@ -29,11 +29,11 @@ exports.getDataMetro = function(callback) {
 
 };
 
-exports.getDataTram = function(callback) {
+exports.getDataTram = function(line, callback) {
 
     var username = config.values.datalyon_username,
         password = config.values.datalyon_password,
-        url = 'https://' + username + ':' + password + '@download.data.grandlyon.com/ws/smartdata/tcl_sytral.tcllignetram/all.json';
+        url = 'https://' + username + ':' + password + '@download.data.grandlyon.com/ws/smartdata/tcl_sytral.tcllignetram/all.json?field=ligne&value=' + line + '&maxfeatures=1';
 
     request({url: url}, function (error, response, body) {
         //console.log(body);

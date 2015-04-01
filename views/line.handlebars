@@ -1,1 +1,30 @@
-<section id="react-app">{{{ markup }}}</section>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-offset-4">
+
+            <h3>Arrêts</h3>
+
+            {{{ markup }}}
+
+            <div class="panel panel-primary" style="text-align:center;margin-top:30px;">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Rechercher une autre ligne</h3>
+                </div>
+                <div class="panel-body">
+                    <form action="/line" method="POST" class="form-inline">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-train"></i></span>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="lineName" name="lineName" placeholder="Ex: C15" required>
+                            </div>
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-primary">Trouver</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

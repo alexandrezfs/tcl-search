@@ -4,6 +4,7 @@ var JSX = require('node-jsx').install(),
     Stops = require('./components/Stops.react'),
     Lines = require('./components/Lines.react'),
     Checkpoint = require('./models/Checkpoint'),
+    Stop = require('./models/Stop'),
     Line = require('./models/Line'),
     uuid = require('node-uuid'),
     SearchEngine = require('./SearchEngine');
@@ -11,22 +12,7 @@ var JSX = require('node-jsx').install(),
 module.exports = {
 
     index: function (req, res) {
-
-        // Call static model method to get tweets in the db
-        Checkpoint.getData(function (data) {
-
-            var markup = React.renderComponentToString(
-                TclApp({
-                    body: data
-                })
-            );
-
-            res.render('index', {
-                markup: markup // Pass rendered react markup
-            });
-
-        });
-
+        res.render('index');
     },
 
     linePost: function (req, res) {
@@ -38,44 +24,50 @@ module.exports = {
 
     line: function (req, res) {
 
-        var lineName = req.params.lineName;
+        var titan_code = req.params.titan_code;
 
-        Checkpoint.getData(function (data) {
+            Stop.getAllData(function (dataAllStops) {
+                Checkpoint.getData(titan_code, function (dataStops) {
 
-            //getting all items that matches with our line
-            var data = JSON.parse(data);
-            var stops = data.values;
-            var formattedStops = [];
+                //getting all items that matches with our line
+                console.log(dataStops);
+                var dataStops = JSON.parse(dataStops);
+                var stops = dataStops.values;
+                var formattedStops = [];
 
-            stops.forEach(function (stop) {
+                var allStops = JSON.parse(dataAllStops);
+                allStops = allStops.values;
 
-                var lName = stop[1];
+                stops.forEach(function (stop) {
 
-                console.log(lName);
+                    allStops.forEach(function (stopFromA) {
 
-                if (lineName.indexOf(lName) > -1 || lName.indexOf(lineName) > -1) {
+                        if (stopFromA[0] == stop[0]) {
 
-                    formattedStops.push({
-                        key: uuid.v4(),
-                        lineName: stop[1],
-                        stopName: stop[2],
-                        newCheckTime: stop[3],
-                        newCheckDateTime: stop[5]
+                            formattedStops.push({
+                                key: uuid.v4(),
+                                stopName: stopFromA[1],
+                                lineName: stop[1],
+                                direction: stop[2],
+                                type: stop[4],
+                                newCheckTime: stop[3],
+                                newCheckDateTime: stop[5]
+                            });
+                        }
                     });
-                }
+                });
+
+                var markup = React.renderComponentToString(
+                    Stops({
+                        stops: formattedStops
+                    })
+                );
+
+                res.render('line', {
+                    markup: markup // Pass rendered react markup
+                });
 
             });
-
-            var markup = React.renderComponentToString(
-                Stops({
-                    stops: formattedStops
-                })
-            );
-
-            res.render('line', {
-                markup: markup // Pass rendered react markup
-            });
-
         });
 
     },
@@ -87,9 +79,9 @@ module.exports = {
         var requestedLineName = req.params.lineName;
 
         //Getting all potential lines
-        Line.getDataBus(function (dataBus) {
-            Line.getDataMetro(function (dataMetro) {
-                Line.getDataTram(function (dataTram) {
+        Line.getDataBus(requestedLineName, function (dataBus) {
+            Line.getDataMetro(requestedLineName, function (dataMetro) {
+                Line.getDataTram(requestedLineName, function (dataTram) {
 
                     var busLines = JSON.parse(dataBus);
                     busLines = busLines.values;
@@ -102,16 +94,14 @@ module.exports = {
 
                     lines.forEach(function (line) {
 
-                        if (SearchEngine.similar_text(line[1], requestedLineName) > 1) {
+                        formattedLines.push({
+                            key: line[0],
+                            lineId: line[1],
+                            direction: line[2],
+                            lineName: line[5],
+                            url: '/line/' + line[0].substring(0, 3)
+                        });
 
-                            formattedLines.push({
-                                key: line[0],
-                                lineId: line[1],
-                                direction: line[2],
-                                lineName: line[5],
-                                url: '/line/' + line[1]
-                            });
-                        }
                     });
 
                     var markup = React.renderComponentToString(
