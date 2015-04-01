@@ -87,34 +87,45 @@ module.exports = {
         var requestedLineName = req.params.lineName;
 
         //Getting all potential lines
-        Line.getDataBus(function (data) {
+        Line.getDataBus(function (dataBus) {
+            Line.getDataMetro(function (dataMetro) {
+                Line.getDataTram(function (dataTram) {
 
-            var busLines = JSON.parse(data);
-            busLines = busLines.values;
+                    var busLines = JSON.parse(dataBus);
+                    busLines = busLines.values;
+                    var tramLines = JSON.parse(dataTram);
+                    tramLines = tramLines.values;
+                    var metroLines = JSON.parse(dataMetro);
+                    metroLines = metroLines.values;
 
-            busLines.forEach(function (busLine) {
+                    var lines = tramLines.concat(metroLines).concat(busLines);
 
-                if (SearchEngine.similar_text(busLine[1], requestedLineName) > 1) {
+                    lines.forEach(function (line) {
 
-                    formattedLines.push({
-                        key: busLine[0],
-                        lineId: busLine[1],
-                        direction: busLine[2],
-                        lineName: busLine[5]
+                        if (SearchEngine.similar_text(line[1], requestedLineName) > 1) {
+
+                            formattedLines.push({
+                                key: line[0],
+                                lineId: line[1],
+                                direction: line[2],
+                                lineName: line[5],
+                                url: '/line/' + line[1]
+                            });
+                        }
                     });
-                }
+
+                    var markup = React.renderComponentToString(
+                        Lines({
+                            lines: formattedLines
+                        })
+                    );
+
+                    res.render('lines', {
+                        markup: markup // Pass rendered react markup
+                    });
+
+                });
             });
-
-            var markup = React.renderComponentToString(
-                Lines({
-                    lines: formattedLines
-                })
-            );
-
-            res.render('lines', {
-                markup: markup // Pass rendered react markup
-            });
-
         });
     }
 };

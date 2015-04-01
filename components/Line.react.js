@@ -9,13 +9,10 @@ module.exports = Line = React.createClass({
         var line = this.props.line;
 
         return (
-            <li>
-                <blockquote>
-                    <span className="content">{line.lineId}</span>
-                    <span className="content">{line.lineName}</span>
-                    <span className="content">{line.direction}</span>
-                </blockquote>
-            </li>
+            <a href={line.url} className="list-group-item">
+                <h4 className="list-group-item-heading"><i className="fa fa-train"></i> {line.lineId}</h4>
+                <p className="list-group-item-text">{line.lineName}</p>
+            </a>
         )
 
     }

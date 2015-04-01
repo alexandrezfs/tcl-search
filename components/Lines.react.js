@@ -19,7 +19,7 @@ module.exports = Lines = React.createClass({
 
         // Return ul filled with our mapped tweets
         return (
-            <ul className="lines">{content}</ul>
+            <div className="list-group">{content}</div>
         )
 
     }
