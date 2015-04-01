@@ -11,7 +11,7 @@ var express = require('express'),
 var app = express();
 var port = process.env.PORT || 8080;
 
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 // Set handlebars as the templating engine
 app.use("/", express.static(__dirname + "/public/"));
 app.set('views', __dirname + '/views');
-app.engine('handlebars', exphbs({ defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 // Index Route
@@ -29,6 +29,6 @@ app.get('/line/:lineName', routes.line);
 app.get('/suggestlines/:lineName', routes.suggestLines);
 
 // Fire it up (start our server)
-var server = http.createServer(app).listen(port, function() {
+var server = http.createServer(app).listen(port, function () {
     console.log('Express server listening on port ' + port);
 });

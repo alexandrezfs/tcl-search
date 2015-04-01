@@ -2,7 +2,7 @@
  * Created by alexandrenguyen on 31/03/15.
  */
 
-exports.similar_text = function(first, second, percent) {
+exports.similar_text = function (first, second, percent) {
 
     //  discuss at: http://phpjs.org/functions/similar_text/
     // original by: Rafał Kukawski (http://blog.kukawski.pl)

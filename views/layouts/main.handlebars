@@ -3,18 +3,49 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TCL React</title>
+    <title>Horaires prochains arrêts TCL, Arrêts TCL à LYON</title>
+    <meta name="description" content="Trouvez le prochain passage d'un bus, métro, tramway TCL à LYON.">
+    <link rel="stylesheet" type="text/css" href="/css/ubuntu_bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/bower_components/bootflat/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/bower_components/bootflat/css/bootflat.css">
-    <link rel="stylesheet" type="text/css" href="/bower_components/bootflat/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
 
-{{{ body }}}
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand"><i class="fa fa-subway"></i> Arrêts et prochains passages TCL</a>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+
+        </div>
+    </div>
+</div>
+
+<div id="wrap">
+    <div id="main" class="container clear-top">
+        {{{ body }}}
+    </div>
+</div>
+
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <p>Développé pour le plaisir par <a href="http://alexandrenguyen.fr">Alexandre Nguyen</a> avec <a href="https://facebook.github.io/react" rel="nofollow">ReactJS.</a>
+                <p>Toutes les données en relation avec TCL sont la propriété de la plateforme data du grand Lyon. <a href="http://data.grandlyon.com/">data.grandlyon.com</a>.</p>
+
+            </div>
+        </div>
+    </div>
+</footer>
 
 <script src="/bower_components/bootflat/js/jquery-1.10.1.min.js"></script>
 <script src="/bower_components/bootflat/js/bootstrap.js"></script>
 
 </body>
+
 </html>
+

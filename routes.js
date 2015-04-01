@@ -10,10 +10,10 @@ var JSX = require('node-jsx').install(),
 
 module.exports = {
 
-    index: function(req, res) {
+    index: function (req, res) {
 
         // Call static model method to get tweets in the db
-        Checkpoint.getData(function(data) {
+        Checkpoint.getData(function (data) {
 
             var markup = React.renderComponentToString(
                 TclApp({
@@ -29,33 +29,31 @@ module.exports = {
 
     },
 
-    linePost: function(req, res) {
+    linePost: function (req, res) {
 
         var lineName = req.body.lineName;
 
-        res.redirect('/line/' + lineName);
+        res.redirect('/suggestlines/' + lineName);
     },
 
-    line: function(req, res) {
+    line: function (req, res) {
 
         var lineName = req.params.lineName;
 
-        Checkpoint.getData(function(data) {
+        Checkpoint.getData(function (data) {
 
             //getting all items that matches with our line
             var data = JSON.parse(data);
             var stops = data.values;
             var formattedStops = [];
 
-            stops.forEach(function(stop) {
+            stops.forEach(function (stop) {
 
                 var lName = stop[1];
 
                 console.log(lName);
 
-                if(lineName.indexOf(lName) > -1 || lName.indexOf(lineName) > -1) {
-
-                    console.log("PASSED");
+                if (lineName.indexOf(lName) > -1 || lName.indexOf(lineName) > -1) {
 
                     formattedStops.push({
                         key: uuid.v4(),
@@ -82,21 +80,21 @@ module.exports = {
 
     },
 
-    suggestLines: function(req, res) {
+    suggestLines: function (req, res) {
 
         var formattedLines = [];
 
         var requestedLineName = req.params.lineName;
 
         //Getting all potential lines
-        Line.getDataBus(function(data) {
+        Line.getDataBus(function (data) {
 
             var busLines = JSON.parse(data);
             busLines = busLines.values;
 
-            busLines.forEach(function(busLine) {
+            busLines.forEach(function (busLine) {
 
-                if(SearchEngine.similar_text(busLine[1], requestedLineName) > 1) {
+                if (SearchEngine.similar_text(busLine[1], requestedLineName) > 1) {
 
                     formattedLines.push({
                         key: busLine[0],
