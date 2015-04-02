@@ -37,7 +37,7 @@ module.exports = TrafficAlert = React.createClass({
                     <div className="panel-body">
                         <p className="list-group-item-text">
                             <p>
-                                <span className="label label-primary">Ligne {alert.lineId}</span>
+                                <span className="label label-success">Ligne {alert.lineId}</span>
                             </p>
 
                             <p>{alert.message}</p>
