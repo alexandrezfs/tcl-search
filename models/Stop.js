@@ -5,7 +5,7 @@ exports.getData = function(stop_id, callback) {
 
     var username = config.values.datalyon_username,
         password = config.values.datalyon_password,
-        url = 'https://' + username + ':' + password + '@download.data.grandlyon.com/ws/smartdata/tcl_sytral.tclarret/all.json?field=ligne&value=' + stop_id;
+        url = 'https://' + username + ':' + password + '@download.data.grandlyon.com/ws/rdata/tcl_sytral.tclarret/all.json?field=ligne&value=' + stop_id;
 
     request({url: url}, function (error, response, body) {
         //console.log(body);
@@ -19,7 +19,7 @@ exports.getAllData = function(callback) {
 
     var username = config.values.datalyon_username,
         password = config.values.datalyon_password,
-        url = 'https://' + username + ':' + password + '@download.data.grandlyon.com/ws/smartdata/tcl_sytral.tclarret/all.json?maxfeatures=40000';
+        url = 'https://' + username + ':' + password + '@download.data.grandlyon.com/ws/rdata/tcl_sytral.tclarret/all.json?maxfeatures=40000';
 
     request({url: url}, function (error, response, body) {
         //console.log(body);

@@ -14,9 +14,60 @@
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a href="/" class="navbar-brand"><i class="fa fa-subway"></i> Arrêts et prochains passages TCL</a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand"><i class="fa fa-subway"></i> Prochains passages TCL</a>
         </div>
-        <div class="navbar-collapse collapse" id="navbar-main">
+        <div id="navbar" class="navbar-collapse collapse">
+            {{#if insearch}}
+                <div class="col-sm-5 pull-left" style="padding-top:5px;">
+                    <a href="/line/301A/A">
+                        <img src="/img/A.png">
+                    </a>
+                    <a href="/line/302A/B">
+                        <img src="/img/B.png">
+                    </a>
+                    <a href="/line/303/C">
+                        <img src="/img/C.png">
+                    </a>
+                    <a href="/line/304/D">
+                        <img src="/img/D.png">
+                    </a>
+                    <a href="/line/T1A/T1">
+                        <img src="/img/T1.png">
+                    </a>
+                    <a href="/line/T2/T2">
+                        <img src="/img/T2.png">
+                    </a>
+                    <a href="/line/T3/T3">
+                        <img src="/img/T3.png">
+                    </a>
+                    <a href="/line/T4A/T4">
+                        <img src="/img/T4.png">
+                    </a>
+                    <a href="/line/T5/T5">
+                        <img src="/img/T5.png">
+                    </a>
+                </div>
+                <div class="col-sm-3 col-md-3 pull-right">
+                    <form class="navbar-form" action="/line" method="POST" class="form-inline">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-bus"></i></span>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="lineName" name="lineName" placeholder="Ex: C15" required>
+                            </div>
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-success">Trouver</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            {{/if}}
         </div>
     </div>
 </div>
@@ -32,8 +83,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p>Développé pour le plaisir par <a href="http://alexandrenguyen.fr">Alexandre Nguyen</a> avec <a href="https://facebook.github.io/react" rel="nofollow">ReactJS.</a>
-                <p>Toutes les données en relation avec TCL sont la propriété de la plateforme data du grand Lyon. <a href="http://data.grandlyon.com/">data.grandlyon.com</a>.</p>
+                <p>Développé pour le plaisir par <a href="http://alexandrenguyen.fr">Alexandre Nguyen</a> avec <a
+                        href="https://facebook.github.io/react" rel="nofollow">ReactJS.</a>
+
+                <p>Toutes les données en relation avec TCL sont la propriété de la plateforme data du grand Lyon. <a
+                        href="http://data.grandlyon.com/">data.grandlyon.com</a>.</p>
             </div>
         </div>
     </div>

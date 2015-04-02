@@ -64,7 +64,8 @@ module.exports = {
                 );
 
                 res.render('line', {
-                    markup: markup // Pass rendered react markup
+                    markup: markup,
+                    insearch: true
                 });
 
             });
@@ -105,7 +106,8 @@ module.exports = {
             );
 
             res.render('lines', {
-                markup: markup // Pass rendered react markup
+                markup: markup,
+                insearch: true
             });
 
         });
