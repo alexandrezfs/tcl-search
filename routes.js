@@ -60,6 +60,7 @@ module.exports = {
     linePost: function (req, res) {
 
         var lineName = req.body.lineName;
+        lineName = lineName.toUpperCase();
 
         res.redirect('/suggestlines/' + lineName);
     },
