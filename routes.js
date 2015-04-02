@@ -2,6 +2,8 @@ var JSX = require('node-jsx').install(),
     React = require('react'),
     Stops = require('./components/Stops.react'),
     Lines = require('./components/Lines.react'),
+    NoResult = require('./components/NoResult.react'),
+    ApiProblem = require('./components/ApiProblem.react'),
     Checkpoint = require('./models/Checkpoint'),
     Stop = require('./models/Stop'),
     Line = require('./models/Line'),
@@ -57,11 +59,21 @@ module.exports = {
                     });
                 });
 
-                var markup = React.renderComponentToString(
-                    Stops({
-                        stops: formattedStops
-                    })
-                );
+
+                var markup;
+
+                if(formattedStops.length > 0) {
+                    markup = React.renderComponentToString(
+                        Stops({
+                            stops: formattedStops
+                        })
+                    );
+                }
+                else {
+                    markup = React.renderComponentToString(
+                        ApiProblem()
+                    );
+                }
 
                 res.render('line', {
                     markup: markup,
@@ -99,11 +111,20 @@ module.exports = {
 
             });
 
-            var markup = React.renderComponentToString(
-                Lines({
-                    lines: formattedLines
-                })
-            );
+            var markup;
+
+            if(formattedLines.length > 0) {
+                markup = React.renderComponentToString(
+                    Lines({
+                        lines: formattedLines
+                    })
+                );
+            }
+            else {
+                markup = React.renderComponentToString(
+                    NoResult()
+                );
+            }
 
             res.render('lines', {
                 markup: markup,
