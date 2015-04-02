@@ -4,15 +4,51 @@ var JSX = require('node-jsx').install(),
     Lines = require('./components/Lines.react'),
     NoResult = require('./components/NoResult.react'),
     ApiProblem = require('./components/ApiProblem.react'),
+    TrafficAlerts = require('./components/TrafficAlerts.react'),
     Checkpoint = require('./models/Checkpoint'),
     Stop = require('./models/Stop'),
     Line = require('./models/Line'),
-    uuid = require('node-uuid');
+    TrafficAlert = require('./models/TrafficAlert'),
+    uuid = require('node-uuid'),
+    moment = require('moment');
+
+moment.locale('fr');
 
 module.exports = {
 
     index: function (req, res) {
-        res.render('index');
+
+        TrafficAlert.getData(function (data) {
+
+            console.log(data);
+
+            var alerts = JSON.parse(data);
+            alerts = alerts.values;
+
+            var formattedAlerts = [];
+
+            alerts.forEach(function (alert) {
+
+                formattedAlerts.push({
+                    key: uuid.v4(),
+                    type: alert[1],
+                    start: moment(alert[2]).format('ll'),
+                    end: moment(alert[3]).format('ll'),
+                    lineId: alert[4].substr(0, alert[4].length - 1),
+                    stopName: alert[6],
+                    message: alert[7],
+                    updated_at: moment(alert[9]).format('ll')
+                });
+            });
+
+            var markup = React.renderComponentToString(
+                TrafficAlerts({
+                    alerts: formattedAlerts
+                })
+            );
+
+            res.render('index', {markup: markup});
+        });
     },
 
     linePost: function (req, res) {
