@@ -36,10 +36,9 @@ module.exports = TrafficAlert = React.createClass({
                 <div id={alert.idAccordion} className={panelAccordionClasses}>
                     <div className="panel-body">
                         <p className="list-group-item-text">
-                            <p><span className="label label-primary">Ligne {alert.lineId}</span> <span
-                                className="label label-success">Publié le {alert.updated_at}</span> <span
-                                className="label label-warning">Début {alert.start}</span> <span
-                                className="label label-info">Fin {alert.end}</span></p>
+                            <p>
+                                <span className="label label-primary">Ligne {alert.lineId}</span>
+                            </p>
 
                             <p>{alert.message}</p>
                         </p>
