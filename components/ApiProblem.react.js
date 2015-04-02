@@ -8,7 +8,8 @@ module.exports = Stop = React.createClass({
 
         return (
             <div className="row">
-                <h1>Probème de connexion avec TCL :( Veuillez recommencer plus tard !</h1>
+                <h1>Oops...</h1>
+                <p>TCL ne met pas à disposition les horaires temps réel pour cette ligne. Vous ne pouvez obtenir que les horaires théoriques sur <a href="http://www.tcl.fr">le site TCL</a>.</p>
             </div>
         )
 
