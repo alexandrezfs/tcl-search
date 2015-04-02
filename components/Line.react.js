@@ -10,7 +10,7 @@ module.exports = Line = React.createClass({
 
         return (
             <a href={line.url} className="list-group-item">
-                <h4 className="list-group-item-heading"><i className="fa fa-train"></i> {line.lineId}</h4>
+                <h4 className="list-group-item-heading"><i className="fa fa-bus"></i> {line.lineId}</h4>
                 <p className="list-group-item-text">{line.lineName}</p>
             </a>
         )
