@@ -1,13 +1,11 @@
 var JSX = require('node-jsx').install(),
     React = require('react'),
-    TclApp = require('./components/TclApp.react'),
     Stops = require('./components/Stops.react'),
     Lines = require('./components/Lines.react'),
     Checkpoint = require('./models/Checkpoint'),
     Stop = require('./models/Stop'),
     Line = require('./models/Line'),
-    uuid = require('node-uuid'),
-    SearchEngine = require('./SearchEngine');
+    uuid = require('node-uuid');
 
 module.exports = {
 
@@ -25,9 +23,10 @@ module.exports = {
     line: function (req, res) {
 
         var titan_code = req.params.titan_code;
+        var lineId = req.params.lineId;
 
-            Stop.getAllData(function (dataAllStops) {
-                Checkpoint.getData(titan_code, function (dataStops) {
+        Stop.getAllData(function (dataAllStops) {
+            Checkpoint.getData(titan_code, function (dataStops) {
 
                 //getting all items that matches with our line
                 console.log(dataStops);
@@ -47,7 +46,8 @@ module.exports = {
                             formattedStops.push({
                                 key: uuid.v4(),
                                 stopName: stopFromA[1],
-                                lineName: stop[1],
+                                lineId: lineId,
+                                lineTitanCode: stop[1],
                                 direction: stop[2],
                                 type: stop[4],
                                 newCheckTime: stop[3],
@@ -80,42 +80,35 @@ module.exports = {
 
         //Getting all potential lines
         Line.getDataBus(requestedLineName, function (dataBus) {
-            Line.getDataMetro(requestedLineName, function (dataMetro) {
-                Line.getDataTram(requestedLineName, function (dataTram) {
 
-                    var busLines = JSON.parse(dataBus);
-                    busLines = busLines.values;
-                    var tramLines = JSON.parse(dataTram);
-                    tramLines = tramLines.values;
-                    var metroLines = JSON.parse(dataMetro);
-                    metroLines = metroLines.values;
+            var busLines = JSON.parse(dataBus);
+            busLines = busLines.values;
 
-                    var lines = tramLines.concat(metroLines).concat(busLines);
+            var lines = busLines;
 
-                    lines.forEach(function (line) {
+            lines.forEach(function (line) {
 
-                        formattedLines.push({
-                            key: line[0],
-                            lineId: line[1],
-                            direction: line[2],
-                            lineName: line[5],
-                            url: '/line/' + line[0].substring(0, 3)
-                        });
-
-                    });
-
-                    var markup = React.renderComponentToString(
-                        Lines({
-                            lines: formattedLines
-                        })
-                    );
-
-                    res.render('lines', {
-                        markup: markup // Pass rendered react markup
-                    });
-
+                formattedLines.push({
+                    key: line[0],
+                    lineId: line[1],
+                    direction: line[2],
+                    lineName: line[5],
+                    url: '/line/' + line[0].substring(0, line[1].length + 1) + '/' + requestedLineName
                 });
+
             });
+
+            var markup = React.renderComponentToString(
+                Lines({
+                    lines: formattedLines
+                })
+            );
+
+            res.render('lines', {
+                markup: markup // Pass rendered react markup
+            });
+
         });
+
     }
 };

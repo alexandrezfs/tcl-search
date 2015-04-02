@@ -2,9 +2,7 @@
 var express = require('express'),
     exphbs = require('express-handlebars'),
     http = require('http'),
-    mongoose = require('mongoose'),
     routes = require('./routes'),
-    config = require('./config'),
     bodyParser = require('body-parser')
 
 // Create an express instance and set a port variable
@@ -25,7 +23,7 @@ app.set('view engine', 'handlebars');
 // Index Route
 app.get('/', routes.index);
 app.post('/line', routes.linePost);
-app.get('/line/:titan_code', routes.line);
+app.get('/line/:titan_code/:lineId', routes.line);
 app.get('/suggestlines/:lineName', routes.suggestLines);
 
 // Fire it up (start our server)
