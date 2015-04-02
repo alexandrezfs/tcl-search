@@ -3,11 +3,12 @@ var express = require('express'),
     exphbs = require('express-handlebars'),
     http = require('http'),
     routes = require('./routes'),
-    bodyParser = require('body-parser')
+    bodyParser = require('body-parser'),
+    config = require('./config');
 
 // Create an express instance and set a port variable
 var app = express();
-var port = process.env.PORT || 8080;
+var port = config.values.port;
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
