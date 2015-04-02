@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+require('react/addons');
 
 module.exports = TrafficAlert = React.createClass({
     // Render the component
@@ -8,14 +9,43 @@ module.exports = TrafficAlert = React.createClass({
 
         var alert = this.props.alert;
 
+        var cx = React.addons.classSet;
+        var classes = {
+            'collapse': true,
+            'panel-collapse': true,
+            'in': false
+        };
+
+
+        if (alert.idAccordion == 'collapse-1') {
+            classes.in = true;
+        }
+
+        var panelAccordionClasses = cx(classes);
+
         return (
-            <li className="list-group-item">
-                <h4 className="list-group-item-heading"><i className="fa fa-bell"></i> {alert.type} - {alert.stopName}</h4>
-                <p className="list-group-item-text">
-                    <p><span className="label label-primary">Ligne {alert.lineId}</span> <span className="label label-success">Publié le {alert.updated_at}</span> <span className="label label-warning">Début {alert.start}</span> <span className="label label-info">Fin {alert.end}</span></p>
-                    <p>{alert.message}</p>
-                </p>
-            </li>
+            <div className="panel panel-default">
+                <div className="panel-heading">
+                    <h4 className="panel-title">
+                        <a className="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                           href={alert.targetIdAccordion}>
+                            <i className="fa fa-bell"></i> {alert.type} - {alert.stopName}
+                        </a><i className="indicator glyphicon glyphicon-chevron-up pull-right"></i>
+                    </h4>
+                </div>
+                <div id={alert.idAccordion} className={panelAccordionClasses}>
+                    <div className="panel-body">
+                        <p className="list-group-item-text">
+                            <p><span className="label label-primary">Ligne {alert.lineId}</span> <span
+                                className="label label-success">Publié le {alert.updated_at}</span> <span
+                                className="label label-warning">Début {alert.start}</span> <span
+                                className="label label-info">Fin {alert.end}</span></p>
+
+                            <p>{alert.message}</p>
+                        </p>
+                    </div>
+                </div>
+            </div>
         )
 
     }

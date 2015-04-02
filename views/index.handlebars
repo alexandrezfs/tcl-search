@@ -68,9 +68,43 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            {{{markup}}}
+    <div class="row" style="margin-top: 40px;">
+        <div class="col-lg-10 col-lg-offset-1">
+            <div class="row">
+                <div class="col-lg-6">
+                    {{{markup}}}
+                </div>
+                <div class="col-lg-6">
+                    <h3>Info Traffic</h3>
+                    <a class="twitter-timeline" href="https://twitter.com/TCLtrafic"
+                       data-widget-id="583609677696606208">Tweets by @TCLtrafic</a>
+                    <script>!function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                        if (!d.getElementById(id)) {
+                            js = d.createElement(s);
+                            js.id = id;
+                            js.src = p + "://platform.twitter.com/widgets.js";
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }
+                    }(document, "script", "twitter-wjs");</script>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+
+        $('#accordion').on('hidden.bs.collapse', toggleChevron);
+        $('#accordion').on('shown.bs.collapse', toggleChevron);
+
+    });
+
+    function toggleChevron(e) {
+        $(e.target)
+                .prev('.panel-heading')
+                .find("i.indicator")
+                .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+    }
+</script>

@@ -19,7 +19,7 @@ module.exports = TrafficAlerts = React.createClass({
         return (
             <div className="row">
                 <h3>Alertes traffic</h3>
-                <div className="list-group">{content}</div>
+                <div className="panel-group" id="accordion">{content}</div>
             </div>
         )
 

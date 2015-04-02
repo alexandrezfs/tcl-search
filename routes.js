@@ -27,7 +27,11 @@ module.exports = {
 
             var formattedAlerts = [];
 
+            var i = 0;
+
             alerts.forEach(function (alert) {
+
+                i++;
 
                 formattedAlerts.push({
                     key: uuid.v4(),
@@ -37,7 +41,9 @@ module.exports = {
                     lineId: alert[4].substr(0, alert[4].length - 1),
                     stopName: alert[6],
                     message: alert[7],
-                    updated_at: moment(alert[9]).format('ll')
+                    updated_at: moment(alert[9]).format('ll'),
+                    idAccordion: 'collapse-' + i,
+                    targetIdAccordion: '#collapse-' + i
                 });
             });
 
@@ -62,7 +68,7 @@ module.exports = {
 
         var titan_code = req.params.titan_code;
         var lineId = req.params.lineId;
-        var titlepage = "Passages de la ligne " + lineId + " - Réseau TCL à LYON - Bus Métro Tram";
+        var titlepage = "Passages de la ligne " + lineId + " - Réseau TCL à LYON";
 
         Stop.getAllData(function (dataAllStops) {
             Checkpoint.getData(titan_code, function (dataStops) {
@@ -115,7 +121,8 @@ module.exports = {
                 res.render('line', {
                     markup: markup,
                     insearch: true,
-                    titlepage: titlepage
+                    titlepage: titlepage,
+                    descriptionpage: "Passages en temps réel de la ligne " + lineId + " TCL à LYON - Métro Tram Bus"
                 });
 
             });
@@ -167,7 +174,8 @@ module.exports = {
             res.render('lines', {
                 markup: markup,
                 insearch: true,
-                titlepage: "Suggestions de recherche: " + requestedLineName + " - Réseau TCL"
+                titlepage: "Suggestions de recherche: " + requestedLineName + " - Réseau TCL",
+                descriptionpage: "Résultats de recherche de la ligne de bus " + requestedLineName + " TCL à LYON"
             });
 
         });
