@@ -62,7 +62,7 @@ module.exports = Stops = React.createClass({
 
         // Return ul filled with our mapped tweets
         return (
-            <div class="row">
+            <div className="row">
                 <h1><i className="fa fa-exchange"></i> Ligne {lineId}</h1>
                 <div className="list-group col-md-6"><h3><i className="fa fa-compass"></i> Direction: {bufferGo}</h3>{contentGo}</div>
                 <div className="list-group col-md-6"><h3><i className="fa fa-compass"></i> Direction: {bufferBack}</h3>{contentBack}</div>

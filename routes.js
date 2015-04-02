@@ -26,6 +26,7 @@ module.exports = {
 
         var titan_code = req.params.titan_code;
         var lineId = req.params.lineId;
+        var titlepage = "Passages de la ligne " + lineId + " - Réseau TCL à LYON - Bus Métro Tram";
 
         Stop.getAllData(function (dataAllStops) {
             Checkpoint.getData(titan_code, function (dataStops) {
@@ -55,14 +56,14 @@ module.exports = {
                                 newCheckTime: stop[3],
                                 newCheckDateTime: stop[5]
                             });
+
                         }
                     });
                 });
 
-
                 var markup;
 
-                if(formattedStops.length > 0) {
+                if (formattedStops.length > 0) {
                     markup = React.renderComponentToString(
                         Stops({
                             stops: formattedStops
@@ -77,7 +78,8 @@ module.exports = {
 
                 res.render('line', {
                     markup: markup,
-                    insearch: true
+                    insearch: true,
+                    titlepage: titlepage
                 });
 
             });
@@ -113,7 +115,7 @@ module.exports = {
 
             var markup;
 
-            if(formattedLines.length > 0) {
+            if (formattedLines.length > 0) {
                 markup = React.renderComponentToString(
                     Lines({
                         lines: formattedLines
@@ -128,7 +130,8 @@ module.exports = {
 
             res.render('lines', {
                 markup: markup,
-                insearch: true
+                insearch: true,
+                titlepage: "Suggestions de recherche: " + requestedLineName + " - Réseau TCL"
             });
 
         });

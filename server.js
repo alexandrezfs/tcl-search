@@ -26,6 +26,13 @@ app.post('/line', routes.linePost);
 app.get('/line/:titan_code/:lineId', routes.line);
 app.get('/suggestlines/:lineName', routes.suggestLines);
 
+//Redirect no 200 status to /
+app.use(function(req, res, next) {
+    if(res.status != 200) {
+        res.redirect('/');
+    }
+});
+
 // Fire it up (start our server)
 var server = http.createServer(app).listen(port, function () {
     console.log('Express server listening on port ' + port);
