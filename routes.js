@@ -10,7 +10,8 @@ var JSX = require('node-jsx').install(),
     Line = require('./models/Line'),
     TrafficAlert = require('./models/TrafficAlert'),
     uuid = require('node-uuid'),
-    moment = require('moment');
+    moment = require('moment'),
+    dataConverter = require('./dataConverter');
 
 moment.locale('fr');
 
@@ -133,29 +134,10 @@ module.exports = {
 
     suggestLines: function (req, res) {
 
-        var formattedLines = [];
-
         var requestedLineName = req.params.lineName;
 
         //Getting all potential lines
-        Line.getDataBus(requestedLineName, function (dataBus) {
-
-            var busLines = JSON.parse(dataBus);
-            busLines = busLines.values;
-
-            var lines = busLines;
-
-            lines.forEach(function (line) {
-
-                formattedLines.push({
-                    key: line[0],
-                    lineId: line[1],
-                    direction: line[2],
-                    lineName: line[5],
-                    url: '/line/' + line[0].substring(0, line[1].length + 1) + '/' + requestedLineName
-                });
-
-            });
+        dataConverter.getFormattedDataBus(requestedLineName, function (formattedLines) {
 
             var markup;
 
