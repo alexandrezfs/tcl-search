@@ -10,7 +10,7 @@ var express = require('express'),
 var app = express();
 var port = config.values.port;
 
-app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(bodyParser.json());         // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
@@ -24,8 +24,9 @@ app.set('view engine', 'handlebars');
 // Index Route
 app.get('/', routes.index);
 app.post('/line', routes.linePost);
-app.get('/line/:titan_code/:lineId', routes.line);
-app.get('/suggestlines/:lineName', routes.suggestLines);
+app.get('/line/:titan_code/:line_id', routes.line);
+app.get('/search/line/:lineName', routes.suggestLines);
+app.get('/search/stop/:keyword', routes.suggestStops);
 
 //Redirect no 200 status to /
 app.use(function(req, res, next) {

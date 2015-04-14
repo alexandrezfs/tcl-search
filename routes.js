@@ -5,12 +5,9 @@ var JSX = require('node-jsx').install(),
     NoResult = require('./components/NoResult.react'),
     ApiProblem = require('./components/ApiProblem.react'),
     TrafficAlerts = require('./components/TrafficAlerts.react'),
-    Checkpoint = require('./models/Checkpoint'),
-    Stop = require('./models/Stop'),
-    Line = require('./models/Line'),
-    TrafficAlert = require('./models/TrafficAlert'),
-    uuid = require('node-uuid'),
-    moment = require('moment');
+    SearchStops = require('./components/SearchStops.react'),
+    moment = require('moment'),
+    dataConverter = require('./dataConverter');
 
 moment.locale('fr');
 
@@ -18,34 +15,7 @@ module.exports = {
 
     index: function (req, res) {
 
-        TrafficAlert.getData(function (data) {
-
-            console.log(data);
-
-            var alerts = JSON.parse(data);
-            alerts = alerts.values;
-
-            var formattedAlerts = [];
-
-            var i = 0;
-
-            alerts.forEach(function (alert) {
-
-                i++;
-
-                formattedAlerts.push({
-                    key: uuid.v4(),
-                    type: alert[1],
-                    start: moment(alert[2]).format('ll'),
-                    end: moment(alert[3]).format('ll'),
-                    lineId: alert[4].substr(0, alert[4].length - 1),
-                    stopName: alert[6],
-                    message: alert[7],
-                    updated_at: moment(alert[9]).format('ll'),
-                    idAccordion: 'collapse-' + i,
-                    targetIdAccordion: '#collapse-' + i
-                });
-            });
+        dataConverter.getTrafficAlertData(function (formattedAlerts) {
 
             var markup = React.renderComponentToString(
                 TrafficAlerts({
@@ -62,47 +32,16 @@ module.exports = {
         var lineName = req.body.lineName;
         lineName = lineName.toUpperCase();
 
-        res.redirect('/suggestlines/' + lineName);
+        res.redirect('/search/line/' + lineName);
     },
 
     line: function (req, res) {
 
         var titan_code = req.params.titan_code;
-        var lineId = req.params.lineId;
-        var titlepage = "Passages de la ligne " + lineId + " - Réseau TCL à LYON";
+        var line_id = req.params.line_id;
+        var titlepage = "Passages de la ligne " + line_id + " - Réseau TCL à LYON";
 
-        Stop.getAllData(function (dataAllStops) {
-            Checkpoint.getData(titan_code, function (dataStops) {
-
-                //getting all items that matches with our line
-                console.log(dataStops);
-                var dataStops = JSON.parse(dataStops);
-                var stops = dataStops.values;
-                var formattedStops = [];
-
-                var allStops = JSON.parse(dataAllStops);
-                allStops = allStops.values;
-
-                stops.forEach(function (stop) {
-
-                    allStops.forEach(function (stopFromA) {
-
-                        if (stopFromA[0] == stop[0]) {
-
-                            formattedStops.push({
-                                key: uuid.v4(),
-                                stopName: stopFromA[1],
-                                lineId: lineId,
-                                lineTitanCode: stop[1],
-                                direction: stop[2],
-                                type: stop[4],
-                                newCheckTime: stop[3],
-                                newCheckDateTime: stop[5]
-                            });
-
-                        }
-                    });
-                });
+        dataConverter.getCheckpointData(titan_code, line_id, function (formattedStops) {
 
                 var markup;
 
@@ -123,39 +62,19 @@ module.exports = {
                     markup: markup,
                     insearch: true,
                     titlepage: titlepage,
-                    descriptionpage: "Passages en temps réel de la ligne " + lineId + " TCL à LYON - Métro Tram Bus"
+                    descriptionpage: "Passages en temps réel de la ligne " + line_id + " TCL à LYON - Métro Tram Bus"
                 });
 
-            });
         });
 
     },
 
     suggestLines: function (req, res) {
 
-        var formattedLines = [];
-
         var requestedLineName = req.params.lineName;
 
         //Getting all potential lines
-        Line.getDataBus(requestedLineName, function (dataBus) {
-
-            var busLines = JSON.parse(dataBus);
-            busLines = busLines.values;
-
-            var lines = busLines;
-
-            lines.forEach(function (line) {
-
-                formattedLines.push({
-                    key: line[0],
-                    lineId: line[1],
-                    direction: line[2],
-                    lineName: line[5],
-                    url: '/line/' + line[0].substring(0, line[1].length + 1) + '/' + requestedLineName
-                });
-
-            });
+        dataConverter.getFormattedDataBus(requestedLineName, function (formattedLines) {
 
             var markup;
 
@@ -181,5 +100,36 @@ module.exports = {
 
         });
 
+    },
+
+    suggestStops: function(req, res) {
+
+        var keyword = req.params.keyword;
+
+        dataConverter.getStopsByKeyword(keyword, function(formattedStops) {
+
+            var markup;
+
+            if (formattedStops.length > 0) {
+                markup = React.renderComponentToString(
+                    SearchStops({
+                        stops: formattedStops
+                    })
+                );
+            }
+            else {
+                markup = React.renderComponentToString(
+                    NoResult()
+                );
+            }
+
+            res.render('searchlines', {
+                markup: markup,
+                insearch: true,
+                titlepage: "Suggestions de recherche: " + keyword + " - Réseau TCL",
+                descriptionpage: "Résultats de recherche de l'arrêt " + keyword + " TCL à LYON"
+            })
+
+        });
     }
 };
