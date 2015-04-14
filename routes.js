@@ -45,38 +45,7 @@ module.exports = {
         var lineId = req.params.lineId;
         var titlepage = "Passages de la ligne " + lineId + " - Réseau TCL à LYON";
 
-        Stop.getAllData(function (dataAllStops) {
-            Checkpoint.getData(titan_code, function (dataStops) {
-
-                //getting all items that matches with our line
-                console.log(dataStops);
-                var dataStops = JSON.parse(dataStops);
-                var stops = dataStops.values;
-                var formattedStops = [];
-
-                var allStops = JSON.parse(dataAllStops);
-                allStops = allStops.values;
-
-                stops.forEach(function (stop) {
-
-                    allStops.forEach(function (stopFromA) {
-
-                        if (stopFromA[0] == stop[0]) {
-
-                            formattedStops.push({
-                                key: uuid.v4(),
-                                stopName: stopFromA[1],
-                                lineId: lineId,
-                                lineTitanCode: stop[1],
-                                direction: stop[2],
-                                type: stop[4],
-                                newCheckTime: stop[3],
-                                newCheckDateTime: stop[5]
-                            });
-
-                        }
-                    });
-                });
+        dataConverter.getCheckpointData(titan_code, lineId, function (formattedStops) {
 
                 var markup;
 
@@ -100,7 +69,6 @@ module.exports = {
                     descriptionpage: "Passages en temps réel de la ligne " + lineId + " TCL à LYON - Métro Tram Bus"
                 });
 
-            });
         });
 
     },

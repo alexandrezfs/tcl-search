@@ -34,14 +34,44 @@ exports.getFormattedDataBus = function(requestedLineName, callback) {
     });
 };
 
-exports.getAllStopsData = function(callback) {
+exports.getCheckpointData = function(titan_code, lineId, callback) {
 
+    Stop.getAllData(function (dataAllStops) {
+        Checkpoint.getData(titan_code, function (dataStops) {
 
-};
+            //getting all items that matches with our line
+            console.log(dataStops);
+            var dataStops = JSON.parse(dataStops);
+            var stops = dataStops.values;
+            var formattedStops = [];
 
-exports.getCheckpointData = function(titan_code, callback) {
+            var allStops = JSON.parse(dataAllStops);
+            allStops = allStops.values;
 
+            stops.forEach(function (stop) {
 
+                allStops.forEach(function (stopFromA) {
+
+                    if (stopFromA[0] == stop[0]) {
+
+                        formattedStops.push({
+                            key: uuid.v4(),
+                            stopName: stopFromA[1],
+                            lineId: lineId,
+                            lineTitanCode: stop[1],
+                            direction: stop[2],
+                            type: stop[4],
+                            newCheckTime: stop[3],
+                            newCheckDateTime: stop[5]
+                        });
+
+                    }
+                });
+            });
+
+            callback(formattedStops);
+        });
+    });
 };
 
 exports.getTrafficAlertData = function(callback) {
