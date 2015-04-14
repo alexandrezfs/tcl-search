@@ -19,34 +19,7 @@ module.exports = {
 
     index: function (req, res) {
 
-        TrafficAlert.getData(function (data) {
-
-            console.log(data);
-
-            var alerts = JSON.parse(data);
-            alerts = alerts.values;
-
-            var formattedAlerts = [];
-
-            var i = 0;
-
-            alerts.forEach(function (alert) {
-
-                i++;
-
-                formattedAlerts.push({
-                    key: uuid.v4(),
-                    type: alert[1],
-                    start: moment(alert[2]).format('ll'),
-                    end: moment(alert[3]).format('ll'),
-                    lineId: alert[4].substr(0, alert[4].length - 1),
-                    stopName: alert[6],
-                    message: alert[7],
-                    updated_at: moment(alert[9]).format('ll'),
-                    idAccordion: 'collapse-' + i,
-                    targetIdAccordion: '#collapse-' + i
-                });
-            });
+        dataConverter.getTrafficAlertData(function (formattedAlerts) {
 
             var markup = React.renderComponentToString(
                 TrafficAlerts({
