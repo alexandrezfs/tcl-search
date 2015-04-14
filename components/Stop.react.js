@@ -14,7 +14,12 @@ module.exports = Stop = React.createClass({
                 <h4 className="list-group-item-heading"><i className="fa fa-flag-checkered"></i> {stop.stopName}</h4>
                 <p className="list-group-item-text">
                     <p>Direction {stop.direction}</p>
-                    <p><span className="label label-primary">Prochain passage</span> <span className="label label-success">{stop.newCheckTime}</span> <span className="label label-default">Prochain passage</span> <span className="label label-default">{stop.nextStop.newCheckTime}</span></p>
+                    <p>
+                        <span className="label label-primary">Prochain passage</span> <span className="label label-success">{stop.newCheckTime}</span>
+                    </p>
+                    <p>
+                        <span className="label label-default">Second passage</span> <span className="label label-default">{stop.nextStop.newCheckTime}</span>
+                    </p>
                 </p>
             </li>
         )
