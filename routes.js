@@ -5,11 +5,7 @@ var JSX = require('node-jsx').install(),
     NoResult = require('./components/NoResult.react'),
     ApiProblem = require('./components/ApiProblem.react'),
     TrafficAlerts = require('./components/TrafficAlerts.react'),
-    Checkpoint = require('./models/Checkpoint'),
-    Stop = require('./models/Stop'),
-    Line = require('./models/Line'),
-    TrafficAlert = require('./models/TrafficAlert'),
-    uuid = require('node-uuid'),
+    SearchStops = require('./components/SearchStops.react'),
     moment = require('moment'),
     dataConverter = require('./dataConverter');
 
@@ -36,7 +32,7 @@ module.exports = {
         var lineName = req.body.lineName;
         lineName = lineName.toUpperCase();
 
-        res.redirect('/suggestlines/' + lineName);
+        res.redirect('/search/line/' + lineName);
     },
 
     line: function (req, res) {
@@ -104,5 +100,36 @@ module.exports = {
 
         });
 
+    },
+
+    suggestStops: function(req, res) {
+
+        var keyword = req.params.keyword;
+
+        dataConverter.getStopsByKeyword(keyword, function(formattedStops) {
+
+            var markup;
+
+            if (formattedStops.length > 0) {
+                markup = React.renderComponentToString(
+                    SearchStops({
+                        stops: formattedStops
+                    })
+                );
+            }
+            else {
+                markup = React.renderComponentToString(
+                    NoResult()
+                );
+            }
+
+            res.render('searchlines', {
+                markup: markup,
+                insearch: true,
+                titlepage: "Suggestions de recherche: " + keyword + " - Réseau TCL",
+                descriptionpage: "Résultats de recherche de l'arrêt " + keyword + " TCL à LYON"
+            })
+
+        });
     }
 };

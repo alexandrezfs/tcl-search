@@ -3,10 +3,12 @@ var Checkpoint = require('./models/Checkpoint'),
     Line = require('./models/Line'),
     TrafficAlert = require('./models/TrafficAlert'),
     uuid = require('node-uuid'),
-    moment = require('moment');
+    moment = require('moment'),
+    SearchEngine = require('./SearchEngine'),
+    lunr = require('lunr');
 
 
-exports.getFormattedDataBus = function(requestedLineName, callback) {
+exports.getFormattedDataBus = function (requestedLineName, callback) {
 
     var formattedLines = [];
 
@@ -34,7 +36,7 @@ exports.getFormattedDataBus = function(requestedLineName, callback) {
     });
 };
 
-exports.getCheckpointData = function(titan_code, line_id, callback) {
+exports.getCheckpointData = function (titan_code, line_id, callback) {
 
     Stop.getAllData(function (dataAllStops) {
         Checkpoint.getData(titan_code, function (dataStops) {
@@ -72,9 +74,10 @@ exports.getCheckpointData = function(titan_code, line_id, callback) {
             callback(formattedStops);
         });
     });
+
 };
 
-exports.getTrafficAlertData = function(callback) {
+exports.getTrafficAlertData = function (callback) {
 
     TrafficAlert.getData(function (data) {
 
@@ -106,5 +109,75 @@ exports.getTrafficAlertData = function(callback) {
         });
 
         callback(formattedAlerts);
+    });
+};
+
+exports.getStopsByKeyword = function (keyword, callback) {
+
+    Stop.getAllData(function (dataAllStops) {
+
+        var allStops = JSON.parse(dataAllStops);
+        allStops = allStops.values;
+
+        var formattedStops = [];
+
+        allStops.forEach(function (stop) {
+
+            formattedStops.push({
+                id: uuid.v4(),
+                key: uuid.v4(),
+                stop_id: stop[0],
+                stopName: stop[1],
+                linked_lines: stop[2],
+                ascenseur: stop[4],
+                escalator: stop[5],
+                url: '/stop/' + stop[0]
+            });
+
+            formattedStops.sort(function (a, b) {
+                if (a.stopName < b.stopName) return -1;
+                if (a.stopName > b.stopName) return 1;
+                return 0;
+            });
+
+        });
+
+        var searchIndex = lunr(function () {
+            this.field('stopName', {boost: 10})
+        });
+
+        formattedStops.forEach(function (formattedStop) {
+            searchIndex.add(formattedStop);
+        });
+
+        var result = searchIndex.search(keyword);
+        var filteredFormattedStops = [];
+
+        result.forEach(function (r) {
+            formattedStops.forEach(function (formattedStop) {
+                if (formattedStop.id == r.ref) {
+                    filteredFormattedStops.push(formattedStop);
+                }
+            });
+        });
+
+        //Check for line names
+        filteredFormattedStops.forEach(function(filteredFormattedStop) {
+            var lines = filteredFormattedStop.linked_lines;
+            var allLines = lines.split(",");
+            var formattedLines = [];
+            allLines.forEach(function(aLine) {
+                var aLineDetails = aLine.split(":");
+                formattedLines.push({
+                    code: aLineDetails[0],
+                    direction: aLineDetails[1],
+                    key: uuid.v4()
+                });
+            });
+            filteredFormattedStop.formattedLines = formattedLines;
+        });
+
+        callback(filteredFormattedStops);
+
     });
 };

@@ -97,7 +97,6 @@ module.exports = Stops = React.createClass({
         var go = convertStopsWithNextStop(go);
         var back = convertStopsWithNextStop(back);
 
-        // Build list items of single tweet components using map
         var contentGo = go.map(function (stop) {
             return (
                 <Stop key={stop.key} stop={stop} />
@@ -110,7 +109,6 @@ module.exports = Stops = React.createClass({
             )
         });
 
-        // Return ul filled with our mapped tweets
         return (
             <div className="row">
                 <h1><i className="fa fa-exchange"></i> Ligne {lineId}</h1>

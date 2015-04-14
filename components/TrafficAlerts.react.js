@@ -7,7 +7,6 @@ module.exports = TrafficAlerts = React.createClass({
     // Render the component
     render: function () {
 
-        // Build list items of single tweet components using map
         var content = this.props.alerts.map(function (alert) {
 
             return (
@@ -15,7 +14,6 @@ module.exports = TrafficAlerts = React.createClass({
             )
         });
 
-        // Return ul filled with our mapped tweets
         return (
             <div className="row">
                 <h3>Alertes traffic</h3>
