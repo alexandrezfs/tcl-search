@@ -18,3 +18,7 @@ html, body {
     clear: both;
     padding-top: 20px;
 }
+
+.label-margin-left {
+    margin-left: 5px;
+}

@@ -162,18 +162,29 @@ exports.getStopsByKeyword = function (keyword, callback) {
         });
 
         //Check for line names
+
         filteredFormattedStops.forEach(function(filteredFormattedStop) {
+
             var lines = filteredFormattedStop.linked_lines;
             var allLines = lines.split(",");
             var formattedLines = [];
+
+            var i = 0;
+
             allLines.forEach(function(aLine) {
+
                 var aLineDetails = aLine.split(":");
+
                 formattedLines.push({
                     code: aLineDetails[0],
                     direction: aLineDetails[1],
-                    key: uuid.v4()
+                    key: uuid.v4(),
+                    internalKey: i
                 });
+
+                i++;
             });
+
             filteredFormattedStop.formattedLines = formattedLines;
         });
 
