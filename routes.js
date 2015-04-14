@@ -42,10 +42,10 @@ module.exports = {
     line: function (req, res) {
 
         var titan_code = req.params.titan_code;
-        var lineId = req.params.lineId;
-        var titlepage = "Passages de la ligne " + lineId + " - Réseau TCL à LYON";
+        var line_id = req.params.line_id;
+        var titlepage = "Passages de la ligne " + line_id + " - Réseau TCL à LYON";
 
-        dataConverter.getCheckpointData(titan_code, lineId, function (formattedStops) {
+        dataConverter.getCheckpointData(titan_code, line_id, function (formattedStops) {
 
                 var markup;
 
@@ -66,7 +66,7 @@ module.exports = {
                     markup: markup,
                     insearch: true,
                     titlepage: titlepage,
-                    descriptionpage: "Passages en temps réel de la ligne " + lineId + " TCL à LYON - Métro Tram Bus"
+                    descriptionpage: "Passages en temps réel de la ligne " + line_id + " TCL à LYON - Métro Tram Bus"
                 });
 
         });

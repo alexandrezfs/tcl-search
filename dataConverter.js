@@ -34,7 +34,7 @@ exports.getFormattedDataBus = function(requestedLineName, callback) {
     });
 };
 
-exports.getCheckpointData = function(titan_code, lineId, callback) {
+exports.getCheckpointData = function(titan_code, line_id, callback) {
 
     Stop.getAllData(function (dataAllStops) {
         Checkpoint.getData(titan_code, function (dataStops) {
@@ -57,7 +57,7 @@ exports.getCheckpointData = function(titan_code, lineId, callback) {
                         formattedStops.push({
                             key: uuid.v4(),
                             stopName: stopFromA[1],
-                            lineId: lineId,
+                            lineId: line_id,
                             lineTitanCode: stop[1],
                             direction: stop[2],
                             type: stop[4],

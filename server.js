@@ -24,7 +24,7 @@ app.set('view engine', 'handlebars');
 // Index Route
 app.get('/', routes.index);
 app.post('/line', routes.linePost);
-app.get('/line/:titan_code/:lineId', routes.line);
+app.get('/line/:titan_code/:line_id', routes.line);
 app.get('/suggestlines/:lineName', routes.suggestLines);
 
 //Redirect no 200 status to /
