@@ -4,7 +4,6 @@ var Checkpoint = require('./models/Checkpoint'),
     TrafficAlert = require('./models/TrafficAlert'),
     uuid = require('node-uuid'),
     moment = require('moment'),
-    SearchEngine = require('./SearchEngine'),
     lunr = require('lunr');
 
 
@@ -130,8 +129,7 @@ exports.getStopsByKeyword = function (keyword, callback) {
                 stopName: stop[1],
                 linked_lines: stop[2],
                 ascenseur: stop[4],
-                escalator: stop[5],
-                url: '/stop/' + stop[0]
+                escalator: stop[5]
             });
 
             formattedStops.sort(function (a, b) {
@@ -163,7 +161,7 @@ exports.getStopsByKeyword = function (keyword, callback) {
 
         //Check for line names
 
-        filteredFormattedStops.forEach(function(filteredFormattedStop) {
+        filteredFormattedStops.forEach(function (filteredFormattedStop) {
 
             var lines = filteredFormattedStop.linked_lines;
             var allLines = lines.split(",");
@@ -171,7 +169,7 @@ exports.getStopsByKeyword = function (keyword, callback) {
 
             var i = 0;
 
-            allLines.forEach(function(aLine) {
+            allLines.forEach(function (aLine) {
 
                 var aLineDetails = aLine.split(":");
 
@@ -186,9 +184,32 @@ exports.getStopsByKeyword = function (keyword, callback) {
             });
 
             filteredFormattedStop.formattedLines = formattedLines;
+            filteredFormattedStop.url = '/line/' + formattedLines[0].code + '/' + formattedLines[0].code + '/' + filteredFormattedStop.stopName;
         });
 
-        callback(filteredFormattedStops);
+        //Filtering same stops
+        var alreadyCheckedStops = [];
+        var totallyFilteredStops = [];
+
+        filteredFormattedStops.forEach(function (filteredFormattedStop) {
+
+            var insert = true;
+
+            alreadyCheckedStops.forEach(function(alreadyCheckedStop) {
+
+                if(filteredFormattedStop.formattedLines[0].code == alreadyCheckedStop.formattedLines[0].code
+                && filteredFormattedStop.stopName == alreadyCheckedStop.stopName) {
+                    insert = false;
+                }
+            });
+
+            if(insert) {
+                alreadyCheckedStops.push(filteredFormattedStop);
+                totallyFilteredStops.push(filteredFormattedStop);
+            }
+        });
+
+        callback(totallyFilteredStops);
 
     });
 };

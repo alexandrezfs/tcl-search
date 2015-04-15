@@ -9,8 +9,6 @@ module.exports = SearchStops = React.createClass({
 
         var content = this.props.stops.map(function (stop) {
 
-            console.log(stop);
-
             return (
                 <SearchStop key={stop.key} stop={stop} />
             )
