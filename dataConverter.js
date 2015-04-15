@@ -4,7 +4,8 @@ var Checkpoint = require('./models/Checkpoint'),
     TrafficAlert = require('./models/TrafficAlert'),
     uuid = require('node-uuid'),
     moment = require('moment'),
-    lunr = require('lunr');
+    lunr = require('lunr'),
+    dataManipulator = require('./dataManipulator');
 
 
 exports.getFormattedDataBus = function (requestedLineName, callback) {
@@ -22,11 +23,12 @@ exports.getFormattedDataBus = function (requestedLineName, callback) {
         lines.forEach(function (line) {
 
             formattedLines.push({
-                key: line[0],
+                key: uuid.v4(),
                 lineId: line[1],
+                lineTitanCode: line[0].substring(0, line[1].length + 1),
                 direction: line[2],
                 lineName: line[5],
-                url: '/line/' + line[0].substring(0, line[1].length + 1) + '/' + requestedLineName
+                url: '/line/' + line[0].substring(0, line[1].length + 1)
             });
 
         });
@@ -35,10 +37,10 @@ exports.getFormattedDataBus = function (requestedLineName, callback) {
     });
 };
 
-exports.getCheckpointData = function (titan_code, line_id, callback) {
+exports.getCheckpointData = function (titan_code, callback) {
 
     Stop.getAllData(function (dataAllStops) {
-        Checkpoint.getData(titan_code, function (dataStops) {
+        Checkpoint.getDataByTitanCode(titan_code, function (dataStops) {
 
             //getting all items that matches with our line
             console.log(dataStops);
@@ -58,7 +60,7 @@ exports.getCheckpointData = function (titan_code, line_id, callback) {
                         formattedStops.push({
                             key: uuid.v4(),
                             stopName: stopFromA[1],
-                            lineId: line_id,
+                            lineId: dataManipulator.getLineIdFromTitanCode(stop[1]),
                             lineTitanCode: stop[1],
                             direction: stop[2],
                             type: stop[4],
@@ -98,7 +100,7 @@ exports.getTrafficAlertData = function (callback) {
                 type: alert[1],
                 start: moment(alert[2]).format('ll'),
                 end: moment(alert[3]).format('ll'),
-                lineId: alert[4].substr(0, alert[4].length - 1),
+                lineId: dataManipulator.getLineIdFromTitanCode(alert[4]),
                 stopName: alert[6],
                 message: alert[7],
                 updated_at: moment(alert[9]).format('ll'),
@@ -125,9 +127,9 @@ exports.getStopsByKeyword = function (keyword, callback) {
             formattedStops.push({
                 id: uuid.v4(),
                 key: uuid.v4(),
-                stop_id: stop[0],
+                stopId: stop[0],
                 stopName: stop[1],
-                linked_lines: stop[2],
+                linkedLines: stop[2],
                 ascenseur: stop[4],
                 escalator: stop[5]
             });
@@ -163,7 +165,7 @@ exports.getStopsByKeyword = function (keyword, callback) {
 
         filteredFormattedStops.forEach(function (filteredFormattedStop) {
 
-            var lines = filteredFormattedStop.linked_lines;
+            var lines = filteredFormattedStop.linkedLines;
             var allLines = lines.split(",");
             var formattedLines = [];
 
@@ -174,7 +176,8 @@ exports.getStopsByKeyword = function (keyword, callback) {
                 var aLineDetails = aLine.split(":");
 
                 formattedLines.push({
-                    code: aLineDetails[0],
+                    titanCode: aLineDetails[0],
+                    lineId: dataManipulator.getLineIdFromTitanCode(aLineDetails[0]),
                     direction: aLineDetails[1],
                     key: uuid.v4(),
                     internalKey: i
@@ -184,7 +187,7 @@ exports.getStopsByKeyword = function (keyword, callback) {
             });
 
             filteredFormattedStop.formattedLines = formattedLines;
-            filteredFormattedStop.url = '/line/' + formattedLines[0].code + '/' + formattedLines[0].code + '/' + filteredFormattedStop.stopName;
+            filteredFormattedStop.url = '/line/' + formattedLines[0].titanCode + '/' + filteredFormattedStop.stopName;
         });
 
         //Filtering same stops
@@ -195,15 +198,15 @@ exports.getStopsByKeyword = function (keyword, callback) {
 
             var insert = true;
 
-            alreadyCheckedStops.forEach(function(alreadyCheckedStop) {
+            alreadyCheckedStops.forEach(function (alreadyCheckedStop) {
 
-                if(filteredFormattedStop.formattedLines[0].code == alreadyCheckedStop.formattedLines[0].code
-                && filteredFormattedStop.stopName == alreadyCheckedStop.stopName) {
+                if (filteredFormattedStop.formattedLines[0].titanCode == alreadyCheckedStop.formattedLines[0].titanCode
+                    && filteredFormattedStop.stopName == alreadyCheckedStop.stopName) {
                     insert = false;
                 }
             });
 
-            if(insert) {
+            if (insert) {
                 alreadyCheckedStops.push(filteredFormattedStop);
                 totallyFilteredStops.push(filteredFormattedStop);
             }
@@ -213,3 +216,46 @@ exports.getStopsByKeyword = function (keyword, callback) {
 
     });
 };
+
+exports.getStopCheckpoints = function (titan_code, stop_name, callback) {
+
+    Stop.getAllData(function (dataAllStops) {
+
+        var allStops = JSON.parse(dataAllStops);
+        allStops = allStops.values;
+
+        Checkpoint.getDataByTitanCode(titan_code, function (dataStops) {
+
+            //getting all items that matches with our line
+            console.log(dataStops);
+            var dataStops = JSON.parse(dataStops);
+            var stops = dataStops.values;
+            var formattedStops = [];
+
+            stops.forEach(function (stop) {
+
+                allStops.forEach(function (stopFromA) {
+
+                    if (stopFromA[1] == stop_name && stopFromA[0] == stop[0]) {
+
+                        formattedStops.push({
+                            key: uuid.v4(),
+                            stopName: stopFromA[1],
+                            lineId: dataManipulator.getLineIdFromTitanCode(stop[1]),
+                            lineTitanCode: stop[1],
+                            direction: stop[2],
+                            type: stop[4],
+                            newCheckTime: stop[3],
+                            newCheckDateTime: stop[5]
+                        });
+
+                    }
+                });
+            });
+
+            callback(formattedStops);
+        });
+    });
+
+};
+

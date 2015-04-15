@@ -1,7 +1,7 @@
 var request = require('request');
 var config = require('../config');
 
-exports.getData = function(tcl_titan_code, callback) {
+exports.getDataByTitanCode = function(tcl_titan_code, callback) {
 
     var username = config.values.datalyon_username,
         password = config.values.datalyon_password,

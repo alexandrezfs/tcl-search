@@ -27,7 +27,7 @@ module.exports = LineBand = React.createClass({
         var lineNameClasses = cx(classes);
 
         return (
-            <span className={lineNameClasses}>{line.code}</span>
+            <span className={lineNameClasses}>{line.lineId}</span>
         )
 
     }
