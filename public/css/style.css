@@ -22,3 +22,7 @@ html, body {
 .label-margin-left {
     margin-left: 5px;
 }
+
+.img-resized-tram-metro img {
+    max-width: 25px;
+}
