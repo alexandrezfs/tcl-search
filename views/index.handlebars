@@ -1,8 +1,8 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-lg-4">
-            <div class="panel panel-primary" style="text-align:center;margin-top:30px;">
+        <div class="col-lg-4 col-lg-offset-2">
+            <div class="panel panel-primary" style="text-align:center;margin-top:50px;">
                 <div class="panel-heading">
                     <h3 class="panel-title"><i class="fa fa-subway"></i> Métro</h3>
                 </div>
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="panel panel-primary" style="text-align:center;margin-top:30px;">
+            <div class="panel panel-primary" style="text-align:center;margin-top:50px;">
                 <div class="panel-heading">
                     <h3 class="panel-title"><i class="fa fa-train"></i> Tramway</h3>
                 </div>
@@ -46,8 +46,33 @@
                 </div>
             </div>
         </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-2">
+            <div class="panel panel-primary" style="text-align:center;margin-top:20px;">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-flag-checkered"></i> Chercher un arrêt</h3>
+                </div>
+                <div class="panel-body">
+                    <form action="/search/stop" method="POST" class="form-inline">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-flag-checkered"></i></span>
+
+                            <div class="form-group">
+                                <input type="text" name="keyword" class="form-control" placeholder="Ex: Gare Part-Dieu">
+                            </div>
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-primary">OK</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="col-lg-4">
-            <div class="panel panel-primary" style="text-align:center;margin-top:30px;">
+            <div class="panel panel-primary" style="text-align:center;margin-top:20px;">
                 <div class="panel-heading">
                     <h3 class="panel-title"><i class="fa fa-bus"></i> Trouvez une ligne de bus</h3>
                 </div>
@@ -64,25 +89,6 @@
                                 <button type="submit" class="btn btn-primary">OK</button>
                             </span>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-primary" style="text-align:center;margin-top:30px;">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-flag-checkered"></i> Chercher un arrêt</h3>
-                </div>
-                <div class="panel-body">
-                    <form action="/search/stop" method="POST" role="form">
-                        <div class="form-group">
-                            <input type="text" name="keyword" class="form-control" placeholder="Ex: Gare part-dieu">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Trouver</button>
                     </form>
                 </div>
             </div>

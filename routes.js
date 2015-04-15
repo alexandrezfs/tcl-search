@@ -166,6 +166,8 @@ module.exports = {
                 );
             }
 
+            console.log(formattedStops);
+
             res.render('lineStops', {
                 markup: markup,
                 insearch: true,
