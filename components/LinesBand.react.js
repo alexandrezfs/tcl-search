@@ -9,8 +9,6 @@ module.exports = LinesBand = React.createClass({
 
         var content = this.props.lines.map(function (line) {
 
-            console.log(line);
-
             return (
                 <LineBand key={line.key} line={line} />
             )

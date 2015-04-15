@@ -7,13 +7,19 @@ var JSX = require('node-jsx').install(),
     TrafficAlerts = require('./components/TrafficAlerts.react'),
     SearchStops = require('./components/SearchStops.react'),
     moment = require('moment'),
-    dataConverter = require('./dataConverter');
+    dataConverter = require('./dataConverter'),
+    dataManipulator = require('./dataManipulator');
 
 moment.locale('fr');
 
 module.exports = {
 
     index: function (req, res) {
+
+        res.render('index');
+    },
+
+    alerts: function (req, res) {
 
         dataConverter.getTrafficAlertData(function (formattedAlerts) {
 
@@ -23,7 +29,7 @@ module.exports = {
                 })
             );
 
-            res.render('index', {markup: markup});
+            res.render('alerts', {markup: markup});
         });
     },
 
@@ -35,35 +41,33 @@ module.exports = {
         res.redirect('/search/line/' + lineName);
     },
 
-    line: function (req, res) {
+    lineStops: function (req, res) {
 
         var titan_code = req.params.titan_code;
-        var line_id = req.params.line_id;
-        var titlepage = "Passages de la ligne " + line_id + " - Réseau TCL à LYON";
 
-        dataConverter.getCheckpointData(titan_code, line_id, function (formattedStops) {
+        dataConverter.getCheckpointData(titan_code, function (formattedStops) {
 
-                var markup;
+            var markup;
 
-                if (formattedStops.length > 0) {
-                    markup = React.renderComponentToString(
-                        Stops({
-                            stops: formattedStops
-                        })
-                    );
-                }
-                else {
-                    markup = React.renderComponentToString(
-                        ApiProblem()
-                    );
-                }
+            if (formattedStops.length > 0) {
+                markup = React.renderComponentToString(
+                    Stops({
+                        stops: formattedStops
+                    })
+                );
+            }
+            else {
+                markup = React.renderComponentToString(
+                    ApiProblem()
+                );
+            }
 
-                res.render('line', {
-                    markup: markup,
-                    insearch: true,
-                    titlepage: titlepage,
-                    descriptionpage: "Passages en temps réel de la ligne " + line_id + " TCL à LYON - Métro Tram Bus"
-                });
+            res.render('lineStops', {
+                markup: markup,
+                insearch: true,
+                page_title: "Passages de la ligne " + dataManipulator.getLineIdFromTitanCode(titan_code) + " - Réseau TCL à LYON",
+                page_description: "Passages en temps réel de la ligne " + dataManipulator.getLineIdFromTitanCode(titan_code) + " TCL à LYON - Métro Tram Bus"
+            });
 
         });
 
@@ -91,22 +95,29 @@ module.exports = {
                 );
             }
 
-            res.render('lines', {
+            res.render('busLinesSuggest', {
                 markup: markup,
                 insearch: true,
-                titlepage: "Suggestions de recherche: " + requestedLineName + " - Réseau TCL",
-                descriptionpage: "Résultats de recherche de la ligne de bus " + requestedLineName + " TCL à LYON"
+                page_title: "Suggestions de recherche: " + requestedLineName + " - Réseau TCL",
+                page_description: "Résultats de recherche de la ligne de bus " + requestedLineName + " TCL à LYON"
             });
 
         });
 
     },
 
-    suggestStops: function(req, res) {
+    suggestStopsPost: function (req, res) {
+
+        var keyword = req.body.keyword;
+
+        res.redirect('/search/stop/' + keyword);
+    },
+
+    suggestStops: function (req, res) {
 
         var keyword = req.params.keyword;
 
-        dataConverter.getStopsByKeyword(keyword, function(formattedStops) {
+        dataConverter.getStopsByKeyword(keyword, function (formattedStops) {
 
             var markup;
 
@@ -123,12 +134,44 @@ module.exports = {
                 );
             }
 
-            res.render('searchlines', {
+            res.render('searchLines', {
                 markup: markup,
                 insearch: true,
-                titlepage: "Suggestions de recherche: " + keyword + " - Réseau TCL",
-                descriptionpage: "Résultats de recherche de l'arrêt " + keyword + " TCL à LYON"
+                page_title: "Suggestions de recherche: " + keyword + " - Réseau TCL",
+                page_description: "Résultats de recherche de l'arrêt " + keyword + " TCL à LYON"
             })
+
+        });
+    },
+
+    lineByStop: function (req, res) {
+
+        var titan_code = req.params.titan_code;
+        var stop_name = req.params.stop_name;
+
+        dataConverter.getStopCheckpoints(titan_code, stop_name, function (formattedStops) {
+
+            var markup;
+
+            if (formattedStops.length > 0) {
+                markup = React.renderComponentToString(
+                    Stops({
+                        stops: formattedStops
+                    })
+                );
+            }
+            else {
+                markup = React.renderComponentToString(
+                    ApiProblem()
+                );
+            }
+
+            res.render('lineStops', {
+                markup: markup,
+                insearch: true,
+                page_title: "Passages de la ligne " + dataManipulator.getLineIdFromTitanCode(titan_code) + " arrêt " + stop_name + " - Réseau TCL à LYON",
+                page_description: "Passages en temps réel de la ligne " + dataManipulator.getLineIdFromTitanCode(titan_code) + " arrêt " + stop_name + " - Métro Tram Bus"
+            });
 
         });
     }
