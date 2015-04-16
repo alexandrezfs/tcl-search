@@ -41,6 +41,10 @@ module.exports = TrafficAlert = React.createClass({
                             </p>
 
                             <p>{alert.message}</p>
+
+                            <p>
+                                <a href={alert.url} title={alert.stopName}>En savoir +</a>
+                            </p>
                         </p>
                     </div>
                 </div>

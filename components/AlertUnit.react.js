@@ -1,0 +1,27 @@
+/** @jsx React.DOM */
+
+var React = require('react');
+
+module.exports = Line = React.createClass({
+    // Render the component
+    render: function () {
+
+        var alert = this.props.alert;
+
+        return (
+            <article>
+                <h1>{alert.type} - {alert.stopName}</h1>
+                <p>
+                    <span className="label label-primary">Ligne {alert.lineId}</span>
+                </p>
+                <p>
+                    {alert.message}
+                </p>
+                <p>
+                    <a href="/alerts" title="Alertes traffic">Retour aux alertes traffic</a>
+                </p>
+            </article>
+        )
+
+    }
+});

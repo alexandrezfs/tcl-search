@@ -105,11 +105,46 @@ exports.getTrafficAlertData = function (callback) {
                 message: alert[7],
                 updated_at: moment(alert[9]).format('ll'),
                 idAccordion: 'collapse-' + i,
-                targetIdAccordion: '#collapse-' + i
+                targetIdAccordion: '#collapse-' + i,
+                url: "/alerts/" + alert[0]
             });
         });
 
         callback(formattedAlerts);
+    });
+};
+
+exports.getAlertTrafficDataById = function(id, callback) {
+
+    TrafficAlert.getbyId(id, function(data) {
+
+        console.log(data);
+
+        try {
+
+            var alerts = JSON.parse(data);
+            alerts = alerts.values;
+            var alert = alerts[0];
+
+            var formattedAlert = {
+                key: uuid.v4(),
+                type: alert[1],
+                start: moment(alert[2]).format('ll'),
+                end: moment(alert[3]).format('ll'),
+                lineId: dataManipulator.getLineIdFromTitanCode(alert[4]),
+                stopName: alert[6],
+                message: alert[7],
+                updated_at: moment(alert[9]).format('ll'),
+                url: "/alerts/" + alert[0]
+            };
+
+            callback(formattedAlert);
+
+        }
+        catch(Exception) {
+            callback(null);
+        }
+
     });
 };
 
