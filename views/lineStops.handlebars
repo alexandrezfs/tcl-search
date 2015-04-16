@@ -5,3 +5,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+
+        setTimeout(function () {
+
+            swal({
+                title: "Vous êtes resté inactif",
+                text: "Vous êtes resté sur cette page pendant plus de 2 minutes. Si vous voulez les derniers horaires de passages, vous devez rafraîchir cette page.",
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: "Ne pas rafraîchir",
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Oui, rafraîchir",
+                closeOnConfirm: false
+            }, function () {
+                document.location.href = "";
+            });
+
+        }, 120000);
+
+    });
+</script>
