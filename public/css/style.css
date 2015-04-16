@@ -24,7 +24,7 @@ html, body {
 }
 
 .img-resized-tram-metro img {
-    max-width: 33px;
+    max-width: 29px;
 }
 
 /* This element holds injected scripts inside iframes that in some cases may stretch layouts. So, we're just hiding it. */
