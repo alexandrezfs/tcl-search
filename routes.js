@@ -141,7 +141,7 @@ module.exports = {
                 canonical: req.protocol + '://' + req.get('host') + req.originalUrl,
                 page_title: "Suggestions de recherche: " + requestedLineName + " - Réseau TCL",
                 page_description: "Résultats de recherche de la ligne de bus " + requestedLineName + " TCL à LYON",
-                keywords: "recherche ligne TCL, TCL ligne " + dataManipulator.getLineIdFromTitanCode(titan_code)
+                keywords: "recherche ligne TCL, TCL ligne " + requestedLineName
             });
 
         });
