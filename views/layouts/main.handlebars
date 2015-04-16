@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{#if page_title}}{{page_title}}{{else}}Horaires prochains passages TCL, Arrêts TCL à LYON{{/if}}</title>
-    <meta name="description"
-          content="{{#if page_description}}{{page_description}}{{else}}Trouvez le prochain passage d'un bus, métro, tramway TCL à LYON.{{/if}}">
+    <meta name="description" content="{{#if page_description}}{{page_description}}{{else}}Trouvez le prochain passage d'un bus, métro, tramway TCL à LYON.{{/if}}">
+    <meta name="keywords" content="{{keywords}}"/>
+    <link rel="canonical" href="{{canonical}}">
     <link rel="stylesheet" type="text/css" href="/css/ubuntu_bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
@@ -29,31 +30,31 @@
         <div id="navbar" class="navbar-collapse collapse">
             {{#if insearch}}
                 <div class="col-sm-5 pull-left img-resized-tram-metro" style="padding-top:13px;">
-                    <a href="/line/301A" title="Passages Métro A" rel="canonical">
+                    <a href="/line/301A" title="Passages Métro A">
                         <img src="/img/A.png" alt="Métro A">
                     </a>
-                    <a href="/line/302A" title="Passages Métro B" rel="canonical">
+                    <a href="/line/302A" title="Passages Métro B">
                         <img src="/img/B.png" alt="Métro B">
                     </a>
-                    <a href="/line/303" title="Passages Métro C" rel="canonical">
+                    <a href="/line/303" title="Passages Métro C">
                         <img src="/img/C.png" alt="Métro C">
                     </a>
-                    <a href="/line/304" title="Passages Métro D" rel="canonical">
+                    <a href="/line/304" title="Passages Métro D">
                         <img src="/img/D.png" alt="Métro D">
                     </a>
-                    <a href="/line/T1A" title="Passages Tram T1" rel="canonical">
+                    <a href="/line/T1A" title="Passages Tram T1">
                         <img src="/img/T1.png" alt="Tram T1">
                     </a>
-                    <a href="/line/T2" title="Passages Tram T2" rel="canonical">
+                    <a href="/line/T2" title="Passages Tram T2">
                         <img src="/img/T2.png" alt="Tram T2">
                     </a>
-                    <a href="/line/T3" title="Passages Tram T3" rel="canonical">
+                    <a href="/line/T3" title="Passages Tram T3">
                         <img src="/img/T3.png" alt="Tram T3">
                     </a>
-                    <a href="/line/T4A" title="Passages Tram T4" rel="canonical">
+                    <a href="/line/T4A" title="Passages Tram T4">
                         <img src="/img/T4.png" alt="Tram T4">
                     </a>
-                    <a href="/line/T5" title="Passages Tram T5" rel="canonical">
+                    <a href="/line/T5" title="Passages Tram T5">
                         <img src="/img/T5.png" alt="Tram T5">
                     </a>
                 </div>
@@ -76,7 +77,7 @@
             {{else}}
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/alerts" title="Alertes traffic TCL" rel="canonical"><i class="fa fa-bell"></i> Alertes Traffic</a></li>
+                    <li><a href="/alerts" title="Alertes traffic TCL"><i class="fa fa-bell"></i> Alertes Traffic</a></li>
                 </ul>
 
             {{/if}}
