@@ -6,6 +6,7 @@ var JSX = require('node-jsx').install(),
     ApiProblem = require('./components/ApiProblem.react'),
     TrafficAlerts = require('./components/TrafficAlerts.react'),
     SearchStops = require('./components/SearchStops.react'),
+    AlertUnit = require('./components/AlertUnit.react'),
     moment = require('moment'),
     dataConverter = require('./dataConverter'),
     dataManipulator = require('./dataManipulator');
@@ -34,6 +35,39 @@ module.exports = {
             );
 
             res.render('alerts', {markup: markup});
+        });
+    },
+
+    alertsUnit: function(req, res) {
+
+        var alert_id = req.params.alert_id;
+
+        dataConverter.getAlertTrafficDataById(alert_id, function (alert) {
+
+            var markup;
+
+            if(alert) {
+
+                markup = React.renderComponentToString(
+                    AlertUnit({
+                        alert: alert
+                    })
+                );
+
+                res.render('alert', {
+                    markup: markup,
+                    insearch: true,
+                    canonical: req.protocol + '://' + req.get('host') + req.originalUrl,
+                    page_title: alert.type + " - " + alert.stopName + " - Réseau TCL à LYON",
+                    page_description: alert.message.substr(0, 20) + "...",
+                    keywords: "alertes TCL, ligne " + dataManipulator.getLineIdFromTitanCode(alert.lineId)
+                });
+
+            }
+            else {
+                res.redirect('/');
+            }
+
         });
     },
 

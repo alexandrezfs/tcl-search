@@ -24,6 +24,7 @@ app.set('view engine', 'handlebars');
 // Index Route
 app.get('/', routes.index);
 app.get('/alerts', routes.alerts);
+app.get('/alerts/:alert_id', routes.alertsUnit);
 app.post('/line', routes.linePost);
 app.get('/line/:titan_code', routes.lineStops);
 app.get('/line/:titan_code/:stop_name', routes.lineByStop);
