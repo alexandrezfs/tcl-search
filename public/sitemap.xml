@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+    <url>
+        <loc>http://www.lyontcl.fr/</loc>
+    </url>
+    <url>
+        <loc>http://www.lyontcl.fr/alerts</loc>
+    </url>
+    <url>
+        <loc>http://www.lyontcl.fr/line/301A</loc>
+    </url>
+    <url>
+        <loc>http://www.lyontcl.fr/line/302A</loc>
+    </url>
+    <url>
+        <loc>http://www.lyontcl.fr/line/303</loc>
+    </url>
+    <url>
+        <loc>http://www.lyontcl.fr/line/304</loc>
+    </url>
+    <url>
+        <loc>http://www.lyontcl.fr/line/T1A</loc>
+    </url>
+    <url>
+        <loc>http://www.lyontcl.fr/line/T2</loc>
+    </url>
+    <url>
+        <loc>http://www.lyontcl.fr/line/T3</loc>
+    </url>
+    <url>
+        <loc>http://www.lyontcl.fr/line/T4A</loc>
+    </url>
+    <url>
+        <loc>http://www.lyontcl.fr/line/T5</loc>
+    </url>
+</urlset>
