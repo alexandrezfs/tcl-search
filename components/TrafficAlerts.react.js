@@ -15,10 +15,10 @@ module.exports = TrafficAlerts = React.createClass({
         });
 
         return (
-            <div className="row">
+            <section className="row">
                 <h3>Alertes traffic</h3>
                 <div className="panel-group" id="accordion">{content}</div>
-            </div>
+            </section>
         )
 
     }

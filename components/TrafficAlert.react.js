@@ -10,6 +10,8 @@ module.exports = TrafficAlert = React.createClass({
         var alert = this.props.alert;
 
         var cx = React.addons.classSet;
+
+        //Accordion link classes
         var classes = {
             'collapse': true,
             'panel-collapse': true,
@@ -23,14 +25,37 @@ module.exports = TrafficAlert = React.createClass({
 
         var panelAccordionClasses = cx(classes);
 
+        //Icon classes
+
+        var classes;
+
+        if(alert.idAccordion == 'collapse-1') {
+            classes = {
+                'indicator': true,
+                'glyphicon': true,
+                'glyphicon-chevron-down': true,
+                'pull-right': true
+            };
+        }
+        else {
+            classes = {
+                'indicator': true,
+                'glyphicon': true,
+                'glyphicon-chevron-up': true,
+                'pull-right': true
+            };
+        }
+
+        var iconAccordionClasses = cx(classes);
+
         return (
-            <div className="panel panel-default">
+            <article className="panel panel-default">
                 <div className="panel-heading">
                     <h4 className="panel-title">
                         <a className="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                            href={alert.targetIdAccordion}>
                             <i className="fa fa-bell"></i> {alert.type} - {alert.stopName}
-                        </a><i className="indicator glyphicon glyphicon-chevron-up pull-right"></i>
+                        </a><i className={iconAccordionClasses}></i>
                     </h4>
                 </div>
                 <div id={alert.idAccordion} className={panelAccordionClasses}>
@@ -48,7 +73,7 @@ module.exports = TrafficAlert = React.createClass({
                         </p>
                     </div>
                 </div>
-            </div>
+            </article>
         )
 
     }
