@@ -18,7 +18,10 @@ module.exports = Line = React.createClass({
                     {alert.message}
                 </p>
                 <p>
-                    <a href="/alerts" title="Alertes traffic">Retour aux alertes traffic</a>
+                    <ul>
+                        <li><a href={alert.realtime_url} title="Passages temps réel">Voir les passages temps réel pour cette ligne</a></li>
+                        <li><a href="/alerts" title="Alertes traffic">Retour aux alertes traffic</a></li>
+                    </ul>
                 </p>
             </article>
         )
