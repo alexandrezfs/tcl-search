@@ -101,12 +101,14 @@ exports.getTrafficAlertData = function (callback) {
                 start: moment(alert[2]).format('ll'),
                 end: moment(alert[3]).format('ll'),
                 lineId: dataManipulator.getLineIdFromTitanCode(alert[4]),
+                titanCode: alert[4],
                 stopName: alert[6],
                 message: alert[7],
                 updated_at: moment(alert[9]).format('ll'),
                 idAccordion: 'collapse-' + i,
                 targetIdAccordion: '#collapse-' + i,
-                url: "/alerts/" + alert[0]
+                url: "/alerts/" + alert[0],
+                realtime_url: "/line/" + alert[4]
             });
         });
 
@@ -132,10 +134,12 @@ exports.getAlertTrafficDataById = function(id, callback) {
                 start: moment(alert[2]).format('ll'),
                 end: moment(alert[3]).format('ll'),
                 lineId: dataManipulator.getLineIdFromTitanCode(alert[4]),
+                titanCode: alert[4],
                 stopName: alert[6],
                 message: alert[7],
                 updated_at: moment(alert[9]).format('ll'),
-                url: "/alerts/" + alert[0]
+                url: "/alerts/" + alert[0],
+                realtime_url: "/line/" + alert[4]
             };
 
             callback(formattedAlert);
