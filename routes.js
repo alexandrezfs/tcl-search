@@ -18,7 +18,7 @@ module.exports = {
     index: function (req, res) {
 
         res.render('index', {
-                canonical: req.protocol + '://' + req.get('host') + req.originalUrl,
+                canonical: 'https://' + req.get('host') + req.originalUrl,
                 keywords: "passages TCL, transports tcl, TCL, métro, tram, bus, transports lyon, transport lyon"
             }
         );
@@ -57,7 +57,7 @@ module.exports = {
                 res.render('alert', {
                     markup: markup,
                     insearch: true,
-                    canonical: req.protocol + '://' + req.get('host') + req.originalUrl,
+                    canonical: 'https://' + req.get('host') + req.originalUrl,
                     page_title: alert.type + " - " + alert.stopName + " - Réseau TCL à LYON",
                     page_description: alert.message.substr(0, 20) + "...",
                     keywords: "alertes TCL, ligne " + dataManipulator.getLineIdFromTitanCode(alert.lineId)
@@ -103,7 +103,7 @@ module.exports = {
             res.render('lineStops', {
                 markup: markup,
                 insearch: true,
-                canonical: req.protocol + '://' + req.get('host') + req.originalUrl,
+                canonical: 'https://' + req.get('host') + req.originalUrl,
                 page_title: "Passages de la ligne " + dataManipulator.getLineIdFromTitanCode(titan_code) + " - Réseau TCL à LYON",
                 page_description: "Passages en temps réel de la ligne " + dataManipulator.getLineIdFromTitanCode(titan_code) + " TCL à LYON - Métro Tram Bus",
                 keywords: "passages TCL, passages temps réel, lyon, ligne " + dataManipulator.getLineIdFromTitanCode(titan_code)
@@ -138,7 +138,7 @@ module.exports = {
             res.render('busLinesSuggest', {
                 markup: markup,
                 insearch: true,
-                canonical: req.protocol + '://' + req.get('host') + req.originalUrl,
+                canonical: 'https://' + req.get('host') + req.originalUrl,
                 page_title: "Suggestions de recherche: " + requestedLineName + " - Réseau TCL",
                 page_description: "Résultats de recherche de la ligne de bus " + requestedLineName + " TCL à LYON",
                 keywords: "recherche ligne TCL, TCL ligne " + requestedLineName
@@ -179,7 +179,7 @@ module.exports = {
             res.render('searchLines', {
                 markup: markup,
                 insearch: true,
-                canonical: req.protocol + '://' + req.get('host') + req.originalUrl,
+                canonical: 'https://' + req.get('host') + req.originalUrl,
                 page_title: "Suggestions de recherche: " + keyword + " - Réseau TCL",
                 page_description: "Résultats de recherche de l'arrêt " + keyword + " TCL à LYON",
                 keywords: "TCL recherche, recherche " + keyword
@@ -215,7 +215,7 @@ module.exports = {
             res.render('lineStops', {
                 markup: markup,
                 insearch: true,
-                canonical: req.protocol + '://' + req.get('host') + req.originalUrl,
+                canonical: 'https://' + req.get('host') + req.originalUrl,
                 page_title: "Passages de la ligne " + dataManipulator.getLineIdFromTitanCode(titan_code) + " arrêt " + stop_name + " - Réseau TCL à LYON",
                 page_description: "Passages en temps réel de la ligne " + dataManipulator.getLineIdFromTitanCode(titan_code) + " arrêt " + stop_name + " - Métro Tram Bus",
                 keywords: "arrêt TCL, ligne " + dataManipulator.getLineIdFromTitanCode(titan_code) + ", " + stop_name
